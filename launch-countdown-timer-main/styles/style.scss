@@ -1,0 +1,43 @@
+
+$font: 'Red Hat Text', sans-serif;
+$fontSize: 14px;
+
+$priGrayishBlue: hsl(237, 18%, 59%);
+$priSoftRed: hsl(345, 95%, 68%);
+
+
+$neuWhite: hsl(0, 0%, 100%);
+$neuDarkDesaturatedBlue: hsl(236, 21%, 26%);
+$neuVeryDarkBlue: hsl(235, 16%, 14%);
+$neuVeryDarkMostlyBlue: hsl(234, 17%, 12%);
+
+$bg-gradient: 
+    linear-gradient(
+        to bottom,
+        $neuVeryDarkMostlyBlue, 
+        $neuDarkDesaturatedBlue
+    );
+
+/* config */
+/*========================================================*/
+
+html, * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* global */
+/*========================================================*/
+
+body {
+    font-family: $font;
+    font-size: $fontSize;
+}
+
+.site-wrapper {
+    width: 100vw;
+    height: 100vh;
+    background: $bg-gradient;
+}
