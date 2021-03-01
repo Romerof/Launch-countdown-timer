@@ -1,0 +1,33 @@
+// flex-direction, justify-content, align-items
+@mixin simple-flex-dja (
+    $d: row, 
+    $j: center, 
+    $a: center
+){
+    display: flex;
+    flex-direction: $d;
+    justify-content: $j;
+    align-items: $a;
+}
+.flex-cc {
+    @include simple-flex-dja();
+}
+
+
+//width, height, margin, padding
+@mixin box-whmpd (
+    $w: auto,
+    $h: auto,
+    $m: 0,
+    $p: 0,
+    $d: block
+){
+    width: $w;
+    height: $h;
+    margin: $m;
+    padding: $p;
+    display: $d;
+}
+.basic-box {
+    @include box-whmpd()
+}

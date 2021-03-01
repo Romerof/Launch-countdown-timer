@@ -1,0 +1,53 @@
+//fonts
+$font: 'Red Hat Text', sans-serif;
+$fontSize: 14px;
+
+//primary
+$priGrayishBlue: hsl(237, 18%, 59%);
+$priSoftRed: hsl(345, 95%, 68%);
+
+//neutral
+$neuWhite: hsl(0, 0%, 100%);
+$neuDarkDesaturatedBlue: hsl(236, 21%, 26%);
+$neuVeryDarkBlue: hsl(235, 16%, 14%);
+$neuVeryDarkMostlyBlue: hsl(234, 17%, 12%);
+
+//grandients
+$bg-gradient: 
+    linear-gradient(
+        to bottom,
+        hsl(258, 19%, 17%), 
+        hsl(268, 25%, 13%)
+    );
+
+//url images
+$img-pattern: url(../images/pattern-hills.svg);
+$img-stars:  url(../images/bg-stars.svg);
+
+
+$content-MW: 900px;
+$content-mw: 290px;
+$card-w: 21vw;
+$card-h: 21vw;
+$card-MW: 190px;
+$card-MH: 190px;
+$card-fs: var(--card-fs);
+$wrapper-mw: var(--wrapper-mw);
+
+
+// native vars
+:root {
+    --card-fs: 2.7vw;
+    --wrapper-mw: 95%
+}
+
+@media (min-width: 720px){
+    :root {
+        --wrapper-mw: 90%
+    }
+}
+@media (min-width: 900px){
+    :root {
+        --card-fs: 22px;
+    }
+}

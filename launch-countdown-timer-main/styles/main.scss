@@ -1,0 +1,91 @@
+@import 'config';
+@import 'vars';
+@import 'mixin-base';
+
+
+body {
+    font-family: $font;
+    font-size: $fontSize;
+    text-align: center;
+    color: $priGrayishBlue
+}
+
+
+
+
+
+.bg-site { 
+    //@include box-whmpd(100vw, 100vh);
+    //min-width: $content-mw;
+    height: 100vh;
+    min-height: 375px;
+
+    background-image: $img-pattern, $img-stars, $bg-gradient;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+.content-wrapper {
+    @include box-whmpd(95%,100%,0 auto);
+    max-width: $content-MW;
+}
+
+main {
+    @include box-whmpd(100%,90%);
+    @include simple-flex-dja(column, center, stretch);
+
+    header {
+        flex-basis: 20%;
+        min-height: none;
+
+        h1 {
+            margin-top: auto;
+            color:white;
+            text-transform: uppercase;
+            font-size: 1.4em;
+            letter-spacing: 8px;
+        }
+    }
+    
+    /* countdown */
+    .countdown {
+        @include box-whmpd($m: 0 0 20%);
+        min-height: calc($card-w - 18px);
+        @include simple-flex-dja($j: space-around,$a: flex-start);
+        
+
+        .card-group{
+            
+            .card {
+                @include box-whmpd($card-w, $card-h);
+                max-height: $card-MH;
+                max-width: $card-MW;
+                background: $neuVeryDarkMostlyBlue;
+            }
+            
+            
+            .description {
+                @extend .basic-box;
+                margin-top: 5%;
+                font-size: $card-fs;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+            }
+
+        }
+
+    }
+
+}
+
+
+// social links, footer
+footer.social-icons {
+    .icon {
+        @include box-whmpd($m: 1rem, $d: inline-block);
+    }
+}
+
+
+
