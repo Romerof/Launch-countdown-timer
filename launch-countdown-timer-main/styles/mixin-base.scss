@@ -1,5 +1,5 @@
 // flex-direction, justify-content, align-items
-@mixin simple-flex-dja (
+@mixin flex-dja (
     $d: row, 
     $j: center, 
     $a: center
@@ -10,11 +10,11 @@
     align-items: $a;
 }
 .flex-cc {
-    @include simple-flex-dja();
+    @include flex-dja();
 }
 
 
-//width, height, margin, padding
+/// hola mundo
 @mixin box-whmpd (
     $w: auto,
     $h: auto,
@@ -31,3 +31,4 @@
 .basic-box {
     @include box-whmpd()
 }
+

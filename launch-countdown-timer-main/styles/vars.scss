@@ -33,21 +33,33 @@ $card-MW: 190px;
 $card-MH: 190px;
 $card-fs: var(--card-fs);
 $wrapper-mw: var(--wrapper-mw);
+$site: ();
+$footer-mh: 35px;
 
 
 // native vars
 :root {
-    --card-fs: 2.7vw;
+    --card-fs: 2.6vw;
     --wrapper-mw: 95%
 }
 
+@media (min-width: 340px){
+    :root {
+        --card-fs: 2.8vw;
+    }
+}
+@media (min-width: 500px){
+    :root {
+        --card-fs: 14px;
+    }
+}
 @media (min-width: 720px){
     :root {
         --wrapper-mw: 90%
+        --card-fs: 16px;
     }
 }
 @media (min-width: 900px){
     :root {
-        --card-fs: 22px;
     }
 }
