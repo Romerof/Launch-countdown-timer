@@ -33,7 +33,7 @@ main {
     max-height: calc(100% - #{$footer-mh});
 
     header {
-        flex-basis: 20%;
+        flex-basis: 18%;
         min-height: none;
 
         h1 {
@@ -48,7 +48,7 @@ main {
     /* countdown */
     .countdown {
         @include box-whmpd($m: 0 0 10px);
-        flex-basis: max(45%);
+        flex-basis: max(50%);
         @include flex-dja($j: space-around,$a: flex-start);
         
 
@@ -59,13 +59,13 @@ main {
                 max-height: $card-MH;
                 max-width: $card-MW;
                 background: $neuVeryDarkMostlyBlue;
-                border-radius: 10px;
+                border-radius: 7%;
             }
             
             
             .description {
                 @extend .basic-box;
-                margin-top: 7%;
+                margin-top: 12%;
                 font-size: $card-fs;
                 font-weight: 700;
                 text-transform: uppercase;
@@ -77,6 +77,21 @@ main {
     }
 
 }
+
+//card animation
+.card div::before,
+.card div::after
+{
+    content: "";
+    width: 10%; 
+    height: 10%; 
+    position: absolute;
+    top: 45%;
+    background-color: $neuVeryDarkMostlyBlue;
+    border-radius: 50%;
+}
+.card div::before { left: -5.5%; }
+.card div::after{ right: -5.5%; }
 
 
 // social links, footer

@@ -16,8 +16,10 @@ $neuVeryDarkMostlyBlue: hsl(234, 17%, 12%);
 $bg-gradient: 
     linear-gradient(
         to bottom,
-        hsl(258, 19%, 17%), 
-        hsl(268, 25%, 13%)
+        $neuVeryDarkMostlyBlue,
+        //$neuVeryDarkBlue,
+        //hsl(268, 25%, 13%),
+        hsl(258, 29%, 16%)40%, 
     );
 
 //url images
@@ -25,12 +27,12 @@ $img-pattern: url(../images/pattern-hills.svg);
 $img-stars:  url(../images/bg-stars.svg);
 
 
-$content-MW: 900px;
+$content-MW: 800px;
 $content-mw: 290px;
-$card-w: 21vw;
-$card-h: 21vw;
-$card-MW: 190px;
-$card-MH: 190px;
+$card-w: 20vw;
+$card-h: 20vw;
+$card-MW: 160px;
+$card-MH: 160px;
 $card-fs: var(--card-fs);
 $wrapper-mw: var(--wrapper-mw);
 $site: ();
@@ -60,6 +62,6 @@ $footer-mh: 35px;
     }
 }
 @media (min-width: 900px){
-    :root {
-    }
+    // :root {
+    // }
 }

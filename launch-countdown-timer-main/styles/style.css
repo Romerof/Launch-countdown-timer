@@ -59,7 +59,7 @@ body {
   height: 100vh;
   min-height: 300px;
   min-width: 300px;
-  background-image: url(../images/pattern-hills.svg), url(../images/bg-stars.svg), linear-gradient(to bottom, #282334, #211929);
+  background-image: url(../images/pattern-hills.svg), url(../images/bg-stars.svg), linear-gradient(to bottom, #191a24, #241d35 40%);
   background-repeat: no-repeat;
   background-position: bottom;
 }
@@ -70,7 +70,7 @@ body {
   margin: 0 auto;
   padding: 0;
   display: block;
-  max-width: 900px;
+  max-width: 800px;
 }
 
 main {
@@ -87,7 +87,7 @@ main {
   /* countdown */
 }
 main header {
-  flex-basis: 20%;
+  flex-basis: 18%;
   min-height: none;
 }
 main header h1 {
@@ -103,29 +103,48 @@ main .countdown {
   margin: 0 0 10px;
   padding: 0;
   display: block;
-  flex-basis: max(45%);
+  flex-basis: max(50%);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
 }
 main .countdown .card-group .card {
-  width: 21vw;
-  height: 21vw;
+  width: 20vw;
+  height: 20vw;
   margin: 0;
   padding: 0;
   display: block;
-  max-height: 190px;
-  max-width: 190px;
+  max-height: 160px;
+  max-width: 160px;
   background: #191a24;
-  border-radius: 10px;
+  border-radius: 7%;
 }
 main .countdown .card-group .description {
-  margin-top: 7%;
+  margin-top: 12%;
   font-size: var(--card-fs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5vw;
+}
+
+.card div::before,
+.card div::after {
+  content: "";
+  width: 10%;
+  height: 10%;
+  position: absolute;
+  top: 45%;
+  background-color: #191a24;
+  border-radius: 50%;
+}
+
+.card div::before {
+  left: -5.5%;
+}
+
+.card div::after {
+  right: -5.5%;
 }
 
 footer.social-icons .icon {
