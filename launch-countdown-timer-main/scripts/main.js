@@ -1,3 +1,4 @@
+//const { map } = require("core-js/fn/dict");
 
 
 //card
@@ -39,35 +40,25 @@ const timing = {
 }
 
 
-
-const dayAnimation = new CardFlipAnimation(timing)
+const dayAnimation = new CardFlipAnimation(timing, {frontTop, backBottom})
 
 
 function change(n){
 
     backTop.innerText = n;
     backBottom.innerText = n;
-    backTop.style.display = 'block';
-    backBottom.style.display = 'block';
 
+    console.log(dayAnimation.play());
+    dayAnimation.play()
+        .then(() => {
+            frontTop.innerText = n;
+            frontBottom.innerText = n;
+            backTop.style.background = 'red';
+            backBottom.style.background = 'red';
+        })
 
-
-    backAnimation.onfinish = ()=>{
-        console.log(backAnimation.playState);
-        frontTop.innerText = n;
-        frontBottom.innerText = n;
-        
-        backTop.style.display = 'none';
-        backBottom.style.display = 'none';
-
-    }
 }
 
-function addStyle(elem, styleObj){
-    for (const key in styleObj) {
-        elem.style[key] = styleObj[key];
-    }
-}
 
 
 function prepareCards () {
@@ -96,7 +87,7 @@ function prepareCards () {
     const backBottomStyle = {
         ...frontBottomStyle,
         transform: "rotateX(180deg)",
-        zIndex: 10,
+        zIndex: 20,
     }
 
     
@@ -105,69 +96,26 @@ function prepareCards () {
     addStyle(backTop, backTopStyle);
     addStyle(backBottom, backBottomStyle);
     
-    day.append(frontTop);
-    day.append(frontBottom);
-    day.append(backTop);
-    day.append(backBottom);
+    day.append(frontBottom, backBottom, frontTop, backTop);
 
 }
 
 
-// constructors and objects
 
-const CardFlipAnimation = (()=>{   
-    
-    function CardFlipAnimation (options, {frontTop, backBottom}) {
-        this.options = {...options};
-        //this.onfinish = null;
-        this.targets = [frontTop, backBottom];
+secondsCard = new CardFlip(second, timing)
+minutesCard = new CardFlip(minute, timing)
+hoursCard = new CardFlip(hour, timing)
+hoursCard = new CardFlip(hour, timing)
 
-        const backBottomKeyframe = new KeyframeEffect(
-            backBottom,
-            [
-                { 
-                    transform: "rotateX(90deg) translateY(-1px)",
-                    borderColor: "hsl(234, 17%, 5%)",
-                    filter: "brightness(1.3)",
-                    offset: 0.50
-                },
-                {transform: "rotateX(0deg)"}
-            ], 
-            options
-        );
-    
-        const frontTopKeyframe = new KeyframeEffect(
-            frontTop,
-            [
-                { 
-                    transform: "rotateX(90deg) translateY(1px)",
-                    borderColor: "hsl(234, 17%, 5%)",
-                    filter: "brightness(.6)",
-                    offset: 0.50
-                },
-                {   transform: "rotateX(180deg)"}
-            ], 
-            options
-        );
-    
-    
-        const frontTopAnimation = new Animation(frontTopKeyframe);
-        const  backBottomAnimation = new Animation(backBottomKeyframe);
 
-        this.animations = [frontTopAnimation, backBottomAnimation]
 
-    };
-
-    CardFlipAnimation.prototype.play = function (){
-
-        [front, back] = this.animations;
-        const finished = new Promise( r => back.onfinish=r);
-
-        this.animations.forEach( e => e.play() )
-
-        return this.finished;
+function addStyle(elem, styleObj){
+    for (const key in styleObj) {
+        elem.style[key] = styleObj[key];
+        console.log(key)
     }
+}
 
 
-    return CardFlipAnimation;
-})()
+
+
