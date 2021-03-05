@@ -18,8 +18,16 @@ body {
     min-width: 300px;
 
     background-image: $img-pattern, $img-stars, $bg-gradient;
-    background-repeat: no-repeat;
-    background-position: bottom;
+    background-repeat: repeat-x;
+    background-position: left bottom;
+
+    //animation: bg-space 60s linear infinite;
+
+    @keyframes bg-space {
+        100%{
+            background-position: -1440px bottom;
+        }
+    }
 }
 
 .content-wrapper {
@@ -48,7 +56,7 @@ main {
     /* countdown */
     .countdown {
         @include box-whmpd($m: 0 0 10px);
-        flex-basis: max(50%);
+        flex-basis: max(60%);
         @include flex-dja($j: space-around,$a: flex-start);
         
 
@@ -59,14 +67,36 @@ main {
                 max-height: $card-MH;
                 max-width: $card-MW;
                 background: $neuVeryDarkMostlyBlue;
-                border-radius: 7%;
+                border-radius: 10%;
+
+                //card animation
+                position: relative;
+                perspective:1500px;
+
+                div{
+                    font-size: $card-fs;
+                    font-weight: 700;
+                    color: $priSoftRed;
+                    padding-top: 10%;
+                    width: 100%;
+                    height: 92%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    background-color: $neuDarkDesaturatedBlue;
+                    border: 1px solid $neuDarkDesaturatedBlue;
+                    border-radius: 6%;
+                    
+                    backface-visibility: hidden
+                }
+
             }
             
             
             .description {
                 @extend .basic-box;
                 margin-top: 12%;
-                font-size: $card-fs;
+                font-size: $card-des-fs;
                 font-weight: 700;
                 text-transform: uppercase;
                 letter-spacing: .5vw;
@@ -78,20 +108,8 @@ main {
 
 }
 
-//card animation
-.card div::before,
-.card div::after
-{
-    content: "";
-    width: 10%; 
-    height: 10%; 
-    position: absolute;
-    top: 45%;
-    background-color: $neuVeryDarkMostlyBlue;
-    border-radius: 50%;
-}
-.card div::before { left: -5.5%; }
-.card div::after{ right: -5.5%; }
+
+
 
 
 // social links, footer

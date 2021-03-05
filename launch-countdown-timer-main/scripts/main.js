@@ -1,80 +1,173 @@
 
 
+//card
+const c = {
+    width: ()=>day.getBoundingClientRect().width,
+    height: ()=>day.getBoundingClientRect().height * 0.92,
+    w: (p) => p !== undefined ? (c.width() * (p/100)).toFixed(5) : c.width(), 
+    h: (p) => p !== undefined ? (c.height() * (p/100)).toFixed(5) : c.height(), 
+}
 
-console.log(day);
-console.log(hour);
-console.log(minute);
-console.log(second);
 
-day.style.position="relative";
-day.style.overflow="hidden";
-
-const topColor = "hsl(236deg 21% 26%)";
-const bottomColor =  "hsl(236deg 21% 26%)";
-const color =  "hsl(345, 95%, 68%)";
-let fontSize = "25px";
-
-let  clipPath = 
-"path("+
-    "'M 0,0 "+
-    "V 76 Q 4,76,4,80 H 143 Q 143,76,147,76 V 0 Z')";
 
 
 //front top
 const frontTop = document.createElement("div");
 const frontBottom = document.createElement("div");
+const backTop = document.createElement("div");
+const backBottom = document.createElement("div");
+
+
+frontTop.innerHTML= `08`;
+frontBottom.innerHTML= `08`;
+backTop.innerHTML= `09`;
+backBottom.innerHTML= `09`;
+
+var i = 0;
+window.onclick = () =>{ 
+    change(++i);
+}
+window.addEventListener('resize', prepareCards)
 
 
 
+prepareCards ()
 
-
-frontTop.innerHTML= ` <span> ${(day.offsetWidth/2).toFixed()} </span> `;
-frontBottom.innerHTML= ` <span> ${(day.offsetWidth/2).toFixed()} </span> `;
-
-
-fontSize = (day.offsetWidth * 0.55) +"px";
-//day.style.lineHeight = "100%";
-
-function change(){
-
+const timing = {
+    duration: 800,
+    easing: "ease-in-out",
 }
 
 
-day.append(frontTop);
-day.append(frontBottom);
 
-//styles
-const topStyle = {
-    background:topColor,
-    filter: "brightness(.8)",
-    clipPath
-}
-const bottomStyle = {
-    background:bottomColor,
-    clipPath: "inset(75.5% 0 0 0)"
-}
-const cardStyle = {
-    paddingTop: "10%",
-    fontSize,
-    color,
-    fontWeight: "700",
-    width: "100%",
-    height: "92%",
-    position: "absolute",
-    top: "0",
-    left: "0",
-    bottom: "0",
-    borderRadius: "6%",
-}
+const dayAnimation = new CardFlipAnimation(timing)
 
-addStyle(frontTop, cardStyle);
-addStyle(frontTop, topStyle);
-addStyle(frontBottom, cardStyle);
-addStyle(frontBottom, bottomStyle);
+
+function change(n){
+
+    backTop.innerText = n;
+    backBottom.innerText = n;
+    backTop.style.display = 'block';
+    backBottom.style.display = 'block';
+
+
+
+    backAnimation.onfinish = ()=>{
+        console.log(backAnimation.playState);
+        frontTop.innerText = n;
+        frontBottom.innerText = n;
+        
+        backTop.style.display = 'none';
+        backBottom.style.display = 'none';
+
+    }
+}
 
 function addStyle(elem, styleObj){
     for (const key in styleObj) {
         elem.style[key] = styleObj[key];
-        console.log(key);
     }
 }
+
+
+function prepareCards () {
+    //tamaños
+    // ${c.h(5)} ${c.h(45)} ${c.h(50)}
+    // ${c.w(5)} {c.w(90)}
+    const topPath = `path('m 0,0 v ${c.h(45)} q ${c.w(5)},0 ${c.w(5)},${c.h(5)} h ${c.w(90)} q 0,-${c.h(5)} ${c.w(5)},-${c.h(5)} v -${c.h(50)} z')`;
+    const bottomPath = `path('m 0,${c.h()} h ${c.w()} v -${c.h(45)} q -${c.w(5)},0 -${c.w(5)},-${c.h(5)} h -${c.w(90)} q 0,${c.h(5)} -${c.w(5)},${c.h(5)} z')`;
+
+
+    //styles
+    const frontTopStyle = {
+        filter: "brightness(.85)",
+        zIndex: 10,
+        clipPath: topPath,
+        
+    }
+    const frontBottomStyle = {
+        clipPath: bottomPath,
+        zIndex: 10,
+    }
+    const backTopStyle = {
+        ...frontTopStyle,
+        zIndex: 0,
+    }
+    const backBottomStyle = {
+        ...frontBottomStyle,
+        transform: "rotateX(180deg)",
+        zIndex: 10,
+    }
+
+    
+    addStyle(frontTop, frontTopStyle);
+    addStyle(frontBottom, frontBottomStyle);
+    addStyle(backTop, backTopStyle);
+    addStyle(backBottom, backBottomStyle);
+    
+    day.append(frontTop);
+    day.append(frontBottom);
+    day.append(backTop);
+    day.append(backBottom);
+
+}
+
+
+// constructors and objects
+
+const CardFlipAnimation = (()=>{   
+    
+    function CardFlipAnimation (options, {frontTop, backBottom}) {
+        this.options = {...options};
+        //this.onfinish = null;
+        this.targets = [frontTop, backBottom];
+
+        const backBottomKeyframe = new KeyframeEffect(
+            backBottom,
+            [
+                { 
+                    transform: "rotateX(90deg) translateY(-1px)",
+                    borderColor: "hsl(234, 17%, 5%)",
+                    filter: "brightness(1.3)",
+                    offset: 0.50
+                },
+                {transform: "rotateX(0deg)"}
+            ], 
+            options
+        );
+    
+        const frontTopKeyframe = new KeyframeEffect(
+            frontTop,
+            [
+                { 
+                    transform: "rotateX(90deg) translateY(1px)",
+                    borderColor: "hsl(234, 17%, 5%)",
+                    filter: "brightness(.6)",
+                    offset: 0.50
+                },
+                {   transform: "rotateX(180deg)"}
+            ], 
+            options
+        );
+    
+    
+        const frontTopAnimation = new Animation(frontTopKeyframe);
+        const  backBottomAnimation = new Animation(backBottomKeyframe);
+
+        this.animations = [frontTopAnimation, backBottomAnimation]
+
+    };
+
+    CardFlipAnimation.prototype.play = function (){
+
+        [front, back] = this.animations;
+        const finished = new Promise( r => back.onfinish=r);
+
+        this.animations.forEach( e => e.play() )
+
+        return this.finished;
+    }
+
+
+    return CardFlipAnimation;
+})()

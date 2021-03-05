@@ -33,6 +33,7 @@ $card-w: 20vw;
 $card-h: 20vw;
 $card-MW: 160px;
 $card-MH: 160px;
+$card-des-fs: var(--card-des-fs);
 $card-fs: var(--card-fs);
 $wrapper-mw: var(--wrapper-mw);
 $site: ();
@@ -41,27 +42,30 @@ $footer-mh: 35px;
 
 // native vars
 :root {
-    --card-fs: 2.6vw;
+    --card-des-fs: 2.6vw;
+    --card-fs: 10.8vw;
+
     --wrapper-mw: 95%
 }
 
 @media (min-width: 340px){
     :root {
-        --card-fs: 2.8vw;
+        --card--des-fs: 2.8vw;
     }
 }
 @media (min-width: 500px){
     :root {
-        --card-fs: 14px;
+        --card-des-fs: 14px;
     }
 }
 @media (min-width: 720px){
     :root {
         --wrapper-mw: 90%
-        --card-fs: 16px;
+        --card--des-fs: 16px;
     }
 }
-@media (min-width: 900px){
-    // :root {
-    // }
+@media (min-width: 800px){
+    :root {
+        --card-fs: 88px;
+    }
 }
