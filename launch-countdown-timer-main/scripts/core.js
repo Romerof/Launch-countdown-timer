@@ -9,16 +9,17 @@
  * Construye y gestiona la card
  * @constructor
  * @param options {object} opciones del keyframe
- * @param targets {object} objetos targets de la animacion frontTop, backBottom
+ * @param targets {object} objetos targets de la animación frontTop, backBottom
  */
 const CardFlip = (()=>{
-    function CardFlip (cardElement, timingOptions) {
+    function CardFlip (cardElement, timingOptions, initial = 0) {
         this.target = cardElement;
-        this.layers = buildLayers()
+        this.layers = buildLayers(initial) //divs que giran en la animación
         this.flipAnimation = new CardFlipAnimation (timingOptions, this.layers)
 
         addStyles(this.target, this.layers);
         addLayers(this.target, this.layers)
+        CardRender.suscribe(this.target, this.layers);
     }
 
     
@@ -31,14 +32,28 @@ const CardFlip = (()=>{
             .then(() => {
                 frontTop.innerText = showable;
                 frontBottom.innerText = showable;
-                
-                backTop.style.background = 'red'; /** */
-                backBottom.style.background = 'red'; /** */
             })
     }
-    
+
+
     //static
-    function buildLayers(){
+
+    /**
+     * actualiza los estilos de los layers al hacer zoom, o redimensionar la ventana
+     */
+    const CardRender = {
+        suscriptors: [],
+        suscribe(elem, layers){ this.suscriptors.push({elem, layers})},
+        update(){
+            this.suscriptors.forEach(e => addStyles(e.elem, e.layers))
+        }
+    }
+    window.addEventListener('resize', e => CardRender.update());
+
+    /**
+     * crea y devuelve los layers
+     */
+    function buildLayers(start){
 
         layers = {
             frontTop : document.createElement("div"),
@@ -46,22 +61,29 @@ const CardFlip = (()=>{
             backTop : document.createElement("div"),
             backBottom : document.createElement("div")
         } 
+
+        for(key in layers) layers[key].innerText = start;
+
         return layers;
     }
 
+    /* Añade los estilos en linea a los layers, usa el tamaño de elem
+     * la funcion path para el recorte de los layers no admite valores 
+     * relativos o dependientes de otro elemteto.
+    */
     function addStyles(elem, {frontTop, frontBottom, backTop, backBottom}){
 
-        const c = {
-            width: ()=> elem.getBoundingClientRect().width,
-            height: ()=> elem.getBoundingClientRect().height * 0.92,
-            w: p => p !== undefined ? (c.width() * (p/100)).toFixed(5) : c.width(), 
-            h: p => p !== undefined ? (c.height() * (p/100)).toFixed(5) : c.height(), 
-        }
+        const width = () => elem.getBoundingClientRect().width;
+        const height = () => elem.getBoundingClientRect().height * 0.92; //notar que es el 92%
+        const w = p => p !== undefined ? (width() * (p/100)).toFixed(2) : width(); 
+        const h = p => p !== undefined ? (height() * (p/100)).toFixed(2) : height(); 
         
-        const topPath = `path('m 0,0 v ${c.h(45)} q ${c.w(5)},0 ${c.w(5)},${c.h(5)} h ${c.w(90)} q 0,-${c.h(5)} ${c.w(5)},-${c.h(5)} v -${c.h(50)} z')`;
-        const bottomPath = `path('m 0,${c.h()} h ${c.w()} v -${c.h(45)} q -${c.w(5)},0 -${c.w(5)},-${c.h(5)} h -${c.w(90)} q 0,${c.h(5)} -${c.w(5)},${c.h(5)} z')`;
+        // w y p alias cortos de width y height 
+        // w y h recibe un numero, si se especifica este sera el porcentage del width o height
+        // w y p sin argumento retornan el width o el height calculado respectivamente
+        const topPath = `path('m 0,0 v ${h(45)} q ${w(5)},0 ${w(5)},${h(5)} h ${w(90)} q 0,-${h(5)} ${w(5)},-${h(5)} v -${h(50)} z')`;
+        const bottomPath = `path('m 0,${h()} h ${w()} v -${h(45)} q -${w(5)},0 -${w(5)},-${h(5)} h -${w(90)} q 0,${h(5)} -${w(5)},${h(5)} z')`;
 
-        console.log(c);
 
         const frontTopStyle = {
             filter: "brightness(.85)",
@@ -89,6 +111,7 @@ const CardFlip = (()=>{
 
     }
 
+    // helpers
     function addLayers(elem, layers) {
         for(key in layers)
             elem.append(layers[key])
