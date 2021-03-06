@@ -12,10 +12,12 @@
  * @param targets {object} objetos targets de la animación frontTop, backBottom
  */
 const CardFlip = (()=>{
-    function CardFlip (cardElement, timingOptions, initial = 0) {
+    function CardFlip (cardElement, timingOptions, initial = "00") {
         this.target = cardElement;
         this.layers = buildLayers(initial) //divs que giran en la animación
         this.flipAnimation = new CardFlipAnimation (timingOptions, this.layers)
+        this.currentText = initial
+        this.reverse = timingOptions?.direction == "reverse"
 
         addStyles(this.target, this.layers);
         addLayers(this.target, this.layers)
@@ -23,15 +25,28 @@ const CardFlip = (()=>{
     }
 
     
-    CardFlip.prototype.change = function (showable){
-        const {backTop, backBottom, frontTop, frontBottom} = this.layers
-        backTop.innerText = showable;
-        backBottom.innerText = showable;
-    
+    CardFlip.prototype.change = function (number){
+        
+        this.currentValue = number;
+        this.currentText = ('0'+number).slice(-2)
+
+        //firs and last to chage
+        const firstKey = this.reverse ? "front" : "back";
+        const lastKey = this.reverse ? "back" : "front";
+        const{ 
+            [firstKey + "Top"] : firstTop, 
+            [firstKey + "Bottom"] : firstBottom, 
+            [lastKey + "Top"]: lastTop, 
+            [lastKey + "Bottom"]: lastBottom
+        } = this.layers; 
+
+        firstTop.innerText = this.currentText;
+        firstBottom.innerText = this.currentText;
+     
         this.flipAnimation.play()
             .then(() => {
-                frontTop.innerText = showable;
-                frontBottom.innerText = showable;
+                lastTop.innerText = this.currentText;
+                lastBottom.innerText = this.currentText;
             })
     }
 
@@ -63,7 +78,6 @@ const CardFlip = (()=>{
         } 
 
         for(key in layers) layers[key].innerText = start;
-
         return layers;
     }
 
