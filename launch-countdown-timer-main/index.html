@@ -21,15 +21,70 @@
     <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
     <style>
     .attribution {
-      font-size: 11px;
+      font-size: 10px;
+      text-align: left;
+
+      max-width: 22px;
+      max-height: 22px;
+      padding: 4px 8px;
+      position: fixed;
+      top: 8px;
+      left: 8px;
+
+      overflow: hidden;
+      background: hsl(240, 5%, 91%);
+      border-radius: 30px;
+      box-shadow: 0px 2px 6px #0000008c;
+
+      transition-property: max-width;
+      transition-duration:  .5s;
+      transition-timing-function: ease-out
+    }
+
+    .attribution p{
+      position: relative;
+      top: 0;
+      right: 0;
+      width: 308px;
+    }
+
+    .attribution::after {
+      content: "i";
+      font-family: serif;
+      font-size: 26px;
+      font-weight: 700;
       text-align: center;
-      display: none
+      line-height: normal;
+      color:hsl(271deg 23% 18%);
+
+      width: 22px;
+      height: 22px;
+
+      position: absolute;
+      top:0;
+      left: 0;
+
+      background-color: hsl(240, 5%, 91%);
+      border-radius: 50%;
+      transition-property: transform, opacity, background-color;
+      transition-duration:  .5s;
+      transition-timing-function: ease-out;
     }
 
     .attribution a {
       color: hsl(228, 45%, 44%);
     }
-  </style>
+
+    .attribution:hover{
+      max-width: 308px;
+    }
+    .attribution:hover::after{
+      transform: scale(0) rotate(90deg);
+      opacity: 0; 
+      background-color: hsl(228, 45%, 44%);
+    }
+
+    </style>
   </head>
 
   <body>
@@ -101,16 +156,19 @@
         </footer>
         <!-- end social icons section -->
 
-        <div class="attribution">
-          Challenge by <a href="https://www.frontendmentor.io?ref=challenge"
-            target="_blank">Frontend Mentor</a>.
-          Coded by <a href="#">Your Name Here</a>.
-        </div>
-
+        
       </div> <!-- end all wrapper -->
-
+      
     </div> <!-- background -->
 
+    <div class="attribution">
+      <p>Challenge by <a href="https://www.frontendmentor.io?ref=challenge"
+          target="_blank">Frontend Mentor</a>. Coded with 🖤 by <a
+          href="https://www.frontendmentor.io/profile/Romerof/bookmarks">Javier
+          Romero</a>.
+      </p>
+    </div>
+    
     <!-- script -->
     <script src="scripts/core.js"></script>
     <script src="scripts/main.js"></script>
