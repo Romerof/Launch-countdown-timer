@@ -11,23 +11,75 @@ body {
 }
 
 .bg-site { 
-    //@include box-whmpd(100vw, 100vh);
-    //min-width: $content-mw;
     height: 100vh;
     min-height: 300px;
     min-width: 300px;
 
-    background-image: $img-pattern, $img-stars, $bg-gradient;
-    background-repeat: repeat-x;
-    background-position: left bottom;
+    background-image: $img-stars;
+    position: relative;
+    background-color:hsl(268, 25%, 14%);
 
-    //animation: bg-space 60s linear infinite;
-
-    @keyframes bg-space {
-        100%{
-            background-position: -1440px bottom;
+    animation: bg-sky 15s ease infinite alternate;
+    @keyframes bg-sky {
+        0%{
+            background-color:hsl(268, 25%, 14%);
+        }50%{
+            background-color:hsla(258, 29%, 16%, .98);
+        }100%{
+            background-color:hsl(258, 29%, 16%);
         }
     }
+    
+    
+    .bg-stars{
+        width: 100%;
+        height: 80%;
+        position:absolute;
+        top: 0px;
+        background-image: $img-stars;
+        background-repeat: repeat;
+        background-position: bottom;
+
+        animation-name: bg-space, bg-stars;
+        animation-duration: 30s, 5s;
+        animation-timing-function: linear, ease-in;
+        animation-iteration-count: infinite;
+        animation-direction: normal, alternate;
+        transform-origin: top;
+    
+        @keyframes bg-space {
+            0%{
+                transform: scale(1);
+                opacity: 0.1;
+            }10%{
+                opacity: 1;
+            }90%{
+                opacity: 1;
+            }100%{
+                transform: scale(.8) rotateZ(15deg);
+                opacity: 0;
+            }
+        }
+        @keyframes bg-stars {
+            0%{
+                filter: brightness(.8);
+            }100%{
+                filter: brightness(1.8);
+            }
+        }
+
+    }
+
+    .bg-hills{
+        width: 100%;
+        height: 30%;
+        position:absolute;
+        bottom: 0px;
+        background-image: $img-pattern;
+        background-repeat: repeat-x;
+        background-position: top right;
+    }
+
 }
 
 .content-wrapper {
@@ -39,6 +91,7 @@ main {
     @include box-whmpd(100%, 90%);
     @include flex-dja(column, center, stretch);
     max-height: calc(100% - #{$footer-mh});
+    position: relative;
 
     header {
         flex-basis: 18%;
@@ -56,9 +109,9 @@ main {
     /* countdown */
     .countdown {
         @include box-whmpd($m: 0 0 10px);
-        flex-basis: max(60%);
         @include flex-dja($j: space-around,$a: flex-start);
-        
+
+        flex-basis: $countdown-fb;
 
         .card-group{
             
@@ -109,11 +162,9 @@ main {
 }
 
 
-
-
-
 // social links, footer
 footer.social-icons {
+    position: relative;
     .icon {
         @include box-whmpd($p: 0 1rem, $d: inline-block);
     }

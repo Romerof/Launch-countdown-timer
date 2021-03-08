@@ -15,6 +15,7 @@ a {
 :root {
   --card-des-fs: 2.6vw;
   --card-fs: 10.8vw;
+  --countdown-fb: 40%;
   --wrapper-mw: 95% ;
 }
 
@@ -32,6 +33,7 @@ a {
   :root {
     --wrapper-mw: 90%
     --card--des-fs: 16px;
+    --countdown-fb: 60%;
   }
 }
 @media (min-width: 800px) {
@@ -65,14 +67,69 @@ body {
   height: 100vh;
   min-height: 300px;
   min-width: 300px;
-  background-image: url(../images/pattern-hills.svg), url(../images/bg-stars.svg), linear-gradient(to bottom, #191a24, #241d35 40%);
-  background-repeat: repeat-x;
-  background-position: left bottom;
+  background-image: url(../images/bg-stars.svg);
+  position: relative;
+  background-color: #231b2d;
+  animation: bg-sky 15s ease infinite alternate;
+}
+@keyframes bg-sky {
+  0% {
+    background-color: #231b2d;
+  }
+  50% {
+    background-color: rgba(36, 29, 53, 0.98);
+  }
+  100% {
+    background-color: #241d35;
+  }
+}
+.bg-site .bg-stars {
+  width: 100%;
+  height: 80%;
+  position: absolute;
+  top: 0px;
+  background-image: url(../images/bg-stars.svg);
+  background-repeat: repeat;
+  background-position: bottom;
+  animation-name: bg-space, bg-stars;
+  animation-duration: 30s, 5s;
+  animation-timing-function: linear, ease-in;
+  animation-iteration-count: infinite;
+  animation-direction: normal, alternate;
+  transform-origin: top;
 }
 @keyframes bg-space {
-  100% {
-    background-position: -1440px bottom;
+  0% {
+    transform: scale(1);
+    opacity: 0.1;
   }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) rotateZ(15deg);
+    opacity: 0;
+  }
+}
+@keyframes bg-stars {
+  0% {
+    filter: brightness(0.8);
+  }
+  100% {
+    filter: brightness(1.8);
+  }
+}
+.bg-site .bg-hills {
+  width: 100%;
+  height: 30%;
+  position: absolute;
+  bottom: 0px;
+  background-image: url(../images/pattern-hills.svg);
+  background-repeat: repeat-x;
+  background-position: top right;
 }
 
 .content-wrapper {
@@ -95,6 +152,7 @@ main {
   justify-content: center;
   align-items: stretch;
   max-height: calc(100% - 35px);
+  position: relative;
   /* countdown */
 }
 main header {
@@ -114,11 +172,11 @@ main .countdown {
   margin: 0 0 10px;
   padding: 0;
   display: block;
-  flex-basis: max(60%);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
+  flex-basis: var(--countdown-fb);
 }
 main .countdown .card-group .card {
   width: 20vw;
@@ -156,6 +214,9 @@ main .countdown .card-group .description {
   letter-spacing: 0.5vw;
 }
 
+footer.social-icons {
+  position: relative;
+}
 footer.social-icons .icon {
   width: auto;
   height: auto;

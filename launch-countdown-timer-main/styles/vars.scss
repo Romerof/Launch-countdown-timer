@@ -38,13 +38,13 @@ $card-fs: var(--card-fs);
 $wrapper-mw: var(--wrapper-mw);
 $site: ();
 $footer-mh: 35px;
-
+$countdown-fb: var(--countdown-fb);
 
 // native vars
 :root {
     --card-des-fs: 2.6vw;
     --card-fs: 10.8vw;
-
+    --countdown-fb: 40%;
     --wrapper-mw: 95%
 }
 
@@ -62,6 +62,7 @@ $footer-mh: 35px;
     :root {
         --wrapper-mw: 90%
         --card--des-fs: 16px;
+        --countdown-fb: 60%;
     }
 }
 @media (min-width: 800px){

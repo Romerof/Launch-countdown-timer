@@ -1,5 +1,6 @@
 /**
- * @fileoverview Funciones constructoras de la tarjeta, o ficha de cambio, animada con efectos 3D
+ * @fileoverview Funciones constructoras de la tarjeta, o ficha de cambio
+ * animada con efectos 3D, y la el objeto que maneja la cuenta regresiva
  * 
  * @version     1.0
  * @author      Javier Romero "Romerof"
@@ -8,8 +9,61 @@
 /**
  * Construye y gestiona la card
  * @constructor
+ * @param launchTime {Date} fecha objetivo de la cuenta regresiva
+ * @param updateHandler {callback} pasa un objeto con los datos de la cuenta cada segundo
+ * @param finishHandler {callback} se ejecuta al finalizar la cuenta regresiva
+ */
+const CountDown = (()=>{
+    function CountDown(launchTime,  updateHandler, finishHandler){
+        this.launchTime = launchTime;
+        this.onUpdate = updateHandler;
+        this.onReached = finishHandler;
+        this.state = "inactive";
+    }
+
+    CountDown.prototype.start = function start () { 
+        this.state= "running";
+        const timeHandler = (function () {
+            const time = this.remaining();
+            if (this.state === "reached") {
+                this.stop();
+                this.onReached();
+            }else { this.onUpdate?.(time)};
+
+        }).bind(this)
+
+        this.stop()
+        return this.timer = setInterval(timeHandler, 1000) ;
+    }
+
+    CountDown.prototype.stop = function stop () {
+        this.state = "stoped";
+        this?.timer && clearInterval(this.timer);
+    }
+
+    CountDown.prototype.remaining = function remaining () {
+        if (this.finalDate === null) return;
+        const remaining = (this.launchTime - Date.now()) / 1000;
+        (remaining <= 0) && (this.state = "reached");
+        return {
+            remaining,
+            d : Math.floor(remaining / 86400), //dias
+            h : Math.floor(remaining / 3600 % 24), //horas
+            m : Math.floor(remaining / 60 % 60), //minutos
+            s : Math.floor(remaining % 60) //segundos
+        }
+    }
+
+    return CountDown;
+})()
+
+
+/**
+ * Construye y gestiona la card
+ * @constructor
  * @param options {object} opciones del keyframe
- * @param targets {object} objetos targets de la animación frontTop, backBottom
+ * @param timingOptions {object} keyframeOptions, opiiones de la animacion 
+ * @param initial { number | string } texto que se muestra en el primer renderizado 
  */
 const CardFlip = (()=>{
     function CardFlip (cardElement, timingOptions, initial = "00") {
@@ -51,7 +105,7 @@ const CardFlip = (()=>{
     }
 
 
-    //static
+    // "static"
 
     /**
      * actualiza los estilos de los layers al hacer zoom, o redimensionar la ventana
@@ -63,10 +117,10 @@ const CardFlip = (()=>{
             this.suscriptors.forEach(e => addStyles(e.elem, e.layers))
         }
     }
-    window.addEventListener('resize', e => CardRender.update());
+    window.addEventListener('resize', CardRender.update.bind(CardRender));
 
     /**
-     * crea y devuelve los layers
+     * fabrica de layers
      */
     function buildLayers(start){
 
@@ -81,9 +135,10 @@ const CardFlip = (()=>{
         return layers;
     }
 
-    /* Añade los estilos en linea a los layers, usa el tamaño de elem
-     * la funcion path para el recorte de los layers no admite valores 
-     * relativos o dependientes de otro elemteto.
+    /**
+    * Añade los estilos en linea a los layers, usa el tamaño de elem.
+    * *** La función path no admite valores relativos. Esta funcion se
+    * se encarga de generar los recortes con dimensiones relativas
     */
     function addStyles(elem, {frontTop, frontBottom, backTop, backBottom}){
 
@@ -97,7 +152,6 @@ const CardFlip = (()=>{
         // w y p sin argumento retornan el width o el height calculado respectivamente
         const topPath = `path('m 0,0 v ${h(45)} q ${w(5)},0 ${w(5)},${h(5)} h ${w(90)} q 0,-${h(5)} ${w(5)},-${h(5)} v -${h(50)} z')`;
         const bottomPath = `path('m 0,${h()} h ${w()} v -${h(45)} q -${w(5)},0 -${w(5)},-${h(5)} h -${w(90)} q 0,${h(5)} -${w(5)},${h(5)} z')`;
-
 
         const frontTopStyle = {
             filter: "brightness(.85)",
