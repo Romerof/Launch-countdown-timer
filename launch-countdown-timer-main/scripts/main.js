@@ -12,8 +12,8 @@ const hoursCard = new CardFlip(hour, timing);
 const daysCard = new CardFlip(day, timing);
 
 const finalDate = new Date;
-finalDate.setMinutes(finalDate.getMinutes()+2);
-// finalDate.setDate(finalDate.getDate()+1);
+//finalDate.setMinutes(finalDate.getMinutes()+2);
+finalDate.setDate(finalDate.getDate()+2);
 
 
 
