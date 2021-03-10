@@ -1,16 +1,16 @@
 /**
- * @fileoverview Funciones constructoras de la tarjeta, o ficha de cambio
- * animada con efectos 3D, y la el objeto que maneja la cuenta regresiva
+ * @fileoverview Funciones constructoras de la tarjeta animada que se 
+ * voltea con efectos 3D, y el objeto que maneja la cuenta regresiva
  * 
  * @version     1.0
  * @author      Javier Romero "Romerof"
  */
 
 /**
- * Construye y gestiona la card
+ * Manejador del la cuenta regresiva
  * @constructor
  * @param launchTime {Date} fecha objetivo de la cuenta regresiva
- * @param updateHandler {callback} pasa un objeto con los datos de la cuenta cada segundo
+ * @param updateHandler {callback} se ejecuta cada segundo, pasa un objeto con los datos del tiempo
  * @param finishHandler {callback} se ejecuta al finalizar la cuenta regresiva
  */
 const CountDown = (()=>{
@@ -43,7 +43,7 @@ const CountDown = (()=>{
 
     CountDown.prototype.remaining = function remaining () {
         if (this.finalDate === null) return;
-        const remaining = (this.launchTime - Date.now()) / 1000;
+        const remaining = (this.launchTime - Date.now()) / 1000; //segundos
         (remaining <= 0) && (this.state = "reached");
         return {
             remaining,
@@ -61,8 +61,8 @@ const CountDown = (()=>{
 /**
  * Construye y gestiona la card
  * @constructor
- * @param options {object} opciones del keyframe
- * @param timingOptions {object} keyframeOptions, opiiones de la animacion 
+ * @param cardElement {object} contenedor de la card
+ * @param timingOptions {object} keyframeOptions, opciones de la animación 
  * @param initial { number | string } texto que se muestra en el primer renderizado 
  */
 const CardFlip = (()=>{
@@ -71,7 +71,7 @@ const CardFlip = (()=>{
         this.layers = buildLayers(initial) //divs que giran en la animación
         this.flipAnimation = new CardFlipAnimation (timingOptions, this.layers)
         this.currentText = initial
-        this.reverse = timingOptions?.direction == "reverse"
+        this.reverse = timingOptions?.direction === "reverse"
 
         addStyles(this.target, this.layers);
         addLayers(this.target, this.layers)
@@ -79,12 +79,12 @@ const CardFlip = (()=>{
     }
 
     
-    CardFlip.prototype.change = function (number){
+    CardFlip.prototype.change = function change (number){
         
         this.currentValue = number;
         this.currentText = ('0'+number).slice(-2)
 
-        //firs and last to chage
+        //primero o ultimo en cambiar, en caso de que la animación este en reverso
         const firstKey = this.reverse ? "front" : "back";
         const lastKey = this.reverse ? "back" : "front";
         const{ 
@@ -92,7 +92,7 @@ const CardFlip = (()=>{
             [firstKey + "Bottom"] : firstBottom, 
             [lastKey + "Top"]: lastTop, 
             [lastKey + "Bottom"]: lastBottom
-        } = this.layers; 
+        } = this.layers; // destructuring
 
         firstTop.innerText = this.currentText;
         firstBottom.innerText = this.currentText;
@@ -137,8 +137,7 @@ const CardFlip = (()=>{
 
     /**
     * Añade los estilos en linea a los layers, usa el tamaño de elem.
-    * *** La función path no admite valores relativos. Esta funcion se
-    * se encarga de generar los recortes con dimensiones relativas
+    * *** La función path no admite valores relativos.
     */
     function addStyles(elem, {frontTop, frontBottom, backTop, backBottom}){
 
@@ -148,7 +147,7 @@ const CardFlip = (()=>{
         const h = p => p !== undefined ? (height() * (p/100)).toFixed(2) : height(); 
         
         // w y p alias cortos de width y height 
-        // w y h recibe un numero, si se especifica este sera el porcentage del width o height
+        // w y h reciben un numero, si se especifica sera el porcentage del width o height
         // w y p sin argumento retornan el width o el height calculado respectivamente
         const topPath = `path('m 0,0 v ${h(45)} q ${w(5)},0 ${w(5)},${h(5)} h ${w(90)} q 0,-${h(5)} ${w(5)},-${h(5)} v -${h(50)} z')`;
         const bottomPath = `path('m 0,${h()} h ${w()} v -${h(45)} q -${w(5)},0 -${w(5)},-${h(5)} h -${w(90)} q 0,${h(5)} -${w(5)},${h(5)} z')`;
@@ -199,17 +198,17 @@ const CardFlip = (()=>{
  * Gestiona la animación de una card con simpleza y elegancia
  * @constructor
  * @param options {object} opciones del keyframe
- * @param targets {object} objetos targets de la animacion frontTop, backBottom
+ * @param targets {object} objetos targets de la animacion (frontTop, backBottom)
  */
 const CardFlipAnimation = (()=>{   
     
-    function CardFlipAnimation (options, {frontTop, backBottom}) {
+    function CardFlipAnimation (options, {frontTop: front, backBottom: back}) {
         this.options = {...options};
         //this.onfinish = null;
-        this.targets = [frontTop, backBottom];
+        this.targets = [front, back];
 
-        const backBottomKeyframe = new KeyframeEffect(
-            backBottom,
+        const backKeyframe = new KeyframeEffect(
+            back,
             [
                 { 
                     transform: "rotateX(90deg) translateY(-2px)",
@@ -226,8 +225,8 @@ const CardFlipAnimation = (()=>{
             options
         );
     
-        const frontTopKeyframe = new KeyframeEffect(
-            frontTop,
+        const frontKeyframe = new KeyframeEffect(
+            front,
             [
                 { 
                     transform: "rotateX(90deg) translateY(-2px)",
@@ -241,10 +240,10 @@ const CardFlipAnimation = (()=>{
         );
     
     
-        const frontTopAnimation = new Animation(frontTopKeyframe);
-        const  backBottomAnimation = new Animation(backBottomKeyframe);
+        const frontAnimation = new Animation(frontKeyframe);
+        const  backAnimation = new Animation(backKeyframe);
 
-        this.animations = [frontTopAnimation, backBottomAnimation]
+        this.animations = [frontAnimation, backAnimation]
 
     };
 

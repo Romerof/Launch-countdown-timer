@@ -15,10 +15,11 @@ body {
     min-height: 300px;
     min-width: 300px;
 
-    //background-image: $img-stars;
     position: relative;
+    //background-image: $img-stars;
     background-color:hsl(268, 25%, 14%);
 
+    //extra
     animation: bg-sky 15s ease infinite alternate;
     @keyframes bg-sky {
         0%{
@@ -40,6 +41,7 @@ body {
         background-repeat: repeat;
         background-position: bottom;
 
+        // *extra*
         animation-name: bg-space, bg-stars;
         animation-duration: 30s, 5s;
         animation-timing-function: linear, ease-in;
@@ -47,6 +49,7 @@ body {
         animation-direction: normal, alternate;
         transform-origin: top;
     
+        // *extra*
         @keyframes bg-space {
             0%{
                 transform: scale(1);
@@ -71,13 +74,13 @@ body {
     }
 
     .bg-hills{
-        width: 100%;
-        height: 30%;
+        @include box-whmpd( 100%, 100%);
         position:absolute;
         bottom: 0px;
         background-image: $img-pattern;
         background-repeat: repeat-x;
-        background-position: top right;
+        background-position: bottom right;
+        background-size: auto;
     }
 
 }
@@ -188,50 +191,98 @@ footer.social-icons {
 
     transition-property: max-width;
     transition-duration:  .5s;
-    transition-timing-function: ease-out
-  }
-
-  .attribution p{
-    position: relative;
-    top: 0;
-    right: 0;
-    width: 308px;
-  }
-
-  .attribution::after {
-    content: "i";
-    font-family: serif;
-    font-size: 26px;
-    font-weight: 700;
-    text-align: center;
-    line-height: normal;
-    color:hsl(271deg 23% 18%);
-
-    width: 22px;
-    height: 22px;
-
-    position: absolute;
-    top:0;
-    left: 0;
-
-    background-color: hsl(240, 5%, 91%);
-    border-radius: 50%;
-    transition-property: transform, opacity, background-color;
-    transition-duration:  .5s;
     transition-timing-function: ease-out;
-  }
 
-  .attribution a {
-    color: hsl(228, 45%, 44%);
-  }
 
-  .attribution:hover{
-    max-width: 308px;
-  }
-  .attribution:hover::after{
-    transform: scale(0) rotate(90deg);
-    opacity: 0; 
-    background-color: hsl(228, 45%, 44%);
-  }
+    &::after {
+        content: "i";
+        font-family: serif;
+        font-size: 26px;
+        font-weight: 700;
+        text-align: center;
+        line-height: normal;
+        color:hsl(271deg 23% 18%);
+    
+        width: 22px;
+        height: 22px;
+    
+        position: absolute;
+        top:0;
+        left: 0;
+    
+        background-color: hsl(240, 5%, 91%);
+        border-radius: 50%;
+
+        transition-property: transform, opacity, background-color;
+        transition-duration:  .5s;
+        transition-timing-function: ease-out;
+    }
+
+    &:hover{
+        max-width: 308px;
+
+        &::after{
+            transform: scale(0) rotate(90deg);
+            opacity: 0; 
+            background-color: hsl(228, 45%, 44%);
+        }
+
+    }
+
+    p{
+        position: relative;
+        top: 0;
+        right: 0;
+        width: 308px;
+    }
+
+    a {
+        color: hsl(228, 45%, 44%);
+    }
+
+}
+
+.motion{
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    border-radius: 3px;
+    border: 1px solid #8385a9;
+    overflow: hidden;
+    opacity: .3;
+    cursor: pointer;
+
+    transition: opacity .4s ease;
+
+    &:hover{
+        opacity: 1;
+
+        .icon {
+            clip-path: inset(20%);
+        }
+    }
+    
+    .icon{
+        @include box-whmpd(20px,20px);
+        background-color: #8385a9;
+        clip-path: inset(20%);
+    }
+    
+
+}
+
+.motion.play{
+    &:hover{
+        .icon{
+            clip-path: polygon(30% 12%, 75% 50%, 30% 88%);
+        }
+    }
+    .icon{
+        background-color: #8385a9;
+        clip-path: polygon(0% 0%, 0% 100%, 30% 100%, 30% 12%, 75% 50%, 30% 88%, 31% 100%, 100% 100%, 100% 0%);
+        clip-path: polygon(30% 12%, 75% 50%, 30% 88%);
+
+    }
+}
 
 

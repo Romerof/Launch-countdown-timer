@@ -123,12 +123,16 @@ body {
 }
 .bg-site .bg-hills {
   width: 100%;
-  height: 30%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: block;
   position: absolute;
   bottom: 0px;
   background-image: url(../images/pattern-hills.svg);
   background-repeat: repeat-x;
-  background-position: top right;
+  background-position: bottom right;
+  background-size: auto;
 }
 
 .content-wrapper {
@@ -241,14 +245,6 @@ footer.social-icons .icon {
   transition-duration: 0.5s;
   transition-timing-function: ease-out;
 }
-
-.attribution p {
-  position: relative;
-  top: 0;
-  right: 0;
-  width: 308px;
-}
-
 .attribution::after {
   content: "i";
   font-family: serif;
@@ -268,19 +264,58 @@ footer.social-icons .icon {
   transition-duration: 0.5s;
   transition-timing-function: ease-out;
 }
-
-.attribution a {
-  color: #3e52a3;
-}
-
 .attribution:hover {
   max-width: 308px;
 }
-
 .attribution:hover::after {
   transform: scale(0) rotate(90deg);
   opacity: 0;
   background-color: #3e52a3;
+}
+.attribution p {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 308px;
+}
+.attribution a {
+  color: #3e52a3;
+}
+
+.motion {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  border-radius: 3px;
+  border: 1px solid #8385a9;
+  overflow: hidden;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 0.4s ease;
+}
+.motion:hover {
+  opacity: 1;
+}
+.motion:hover .icon {
+  clip-path: inset(20%);
+}
+.motion .icon {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  display: block;
+  background-color: #8385a9;
+  clip-path: inset(20%);
+}
+
+.motion.play:hover .icon {
+  clip-path: polygon(30% 12%, 75% 50%, 30% 88%);
+}
+.motion.play .icon {
+  background-color: #8385a9;
+  clip-path: polygon(0% 0%, 0% 100%, 30% 100%, 30% 12%, 75% 50%, 30% 88%, 31% 100%, 100% 100%, 100% 0%);
+  clip-path: polygon(30% 12%, 75% 50%, 30% 88%);
 }
 
 /*# sourceMappingURL=style.css.map */

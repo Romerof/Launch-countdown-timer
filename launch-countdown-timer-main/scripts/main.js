@@ -1,18 +1,21 @@
 "use strict";
 
 const timing = {
-    duration: 800, //ms
+    duration: 800, //ms, max: 1000
     easing: "ease-in-out",
     //direction: "reverse"
 }
 
-const secondsCard = new CardFlip(second, timing);
+const secondsCard = new CardFlip(second, timing); //#second ...
 const minutesCard = new CardFlip(minute, timing);
 const hoursCard = new CardFlip(hour, timing);
 const daysCard = new CardFlip(day, timing);
 
+const finalDate = new Date;
+finalDate.setMinutes(finalDate.getMinutes()+2);
+// finalDate.setDate(finalDate.getDate()+1);
 
-const finalDate = new Date("2021/03/06 22:57");
+
 
 
 function timeHandler (time){
@@ -23,9 +26,25 @@ function timeHandler (time){
     daysCard?.currentValue !== d && daysCard.change(d);
 }
 
+function finishHandler() {
+    /// on finish 
+}
+
 //countdown
-const countDown = new CountDown(finalDate, timeHandler, ()=>console.log("finish"));
+const countDown = new CountDown(finalDate, timeHandler, finishHandler);
 countDown.start();
+
+
+//play/stop *extra*
+const motions = document.getAnimations().filter( a => a instanceof CSSAnimation );
+
+btn_motion.addEventListener("click", (e)=>{
+    e.currentTarget
+     .classList
+     .toggle("play") 
+    ? motions.forEach( a => a.cancel())
+    : motions.forEach( a => a.play());
+});
 
 
 
