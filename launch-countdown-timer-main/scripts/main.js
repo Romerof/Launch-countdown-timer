@@ -11,12 +11,7 @@ const minutesCard = new CardFlip(minute, timing);
 const hoursCard = new CardFlip(hour, timing);
 const daysCard = new CardFlip(day, timing);
 
-const finalDate = new Date;
-//finalDate.setMinutes(finalDate.getMinutes()+2);
-finalDate.setDate(finalDate.getDate()+2);
-
-
-
+const finalDate = new Date('2021/03/22');
 
 function timeHandler (time){
     const {s, m, h, d} = time;
